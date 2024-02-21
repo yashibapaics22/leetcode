@@ -1,46 +1,32 @@
 class Solution {
-    public int totalNQueens(int n) {
-        char board[][] = new char[n][n];
-        for(char i[] : board)
-            Arrays.fill(i, '.');
-        return dfs(0, board);
+    public int totalNQueens(int num) {
+    int[] memo = new int[num];
+    int count = 0 ;
+    for(int i=0;i<num;i++) {
+      memo[0] = i;
+      count = count + dfs(0, i, memo,num);
     }
-    public int dfs(int col, char board[][]){
-        if(col == board.length) return 1;
-        int count = 0;
-        for(int row = 0; row < board.length; row++){
-            if(isSafe(board, row, col)){
-                board[row][col] = 'Q';
-                count += dfs(col + 1, board);
-                board[row][col] = '.';
-            }
-        }
-        return count;
+    return count;
     }
-    public boolean isSafe(char board[][], int row, int col){
-        int dupRow = row;
-        int dupCol = col;
-        
-        while(row >= 0 && col >= 0){
-            if(board[row][col] == 'Q') return false;
-            row--;
-            col--;
-        }
-        
-        row = dupRow;
-        col = dupCol;
-        while(col >= 0){
-            if(board[row][col] == 'Q') return false;
-            col--;
-        }
-        
-        row = dupRow;
-        col = dupCol;
-        while(col >= 0 && row < board.length){
-            if(board[row][col] == 'Q') return false;
-            row++;
-            col--;
-        }
-        return true;
+  
+    public static int dfs(int x, int y, int[] memo, int num){
+    int count = 0;
+    if(isValid(x,y,memo)){
+      if(x == num -1) return 1;
+      for(int i=0;i<num;i++){
+        memo[x+1] = i;
+        count = count + dfs(x+1,i, memo, num);
+      }
     }
+    return count;
+  }
+  public static boolean isValid(int x, int y, int[] memo){
+    int curr;
+    for(int i=0; i<x;i++){
+      curr = memo[x-i-1];
+      if(curr == y || (y > 0 && curr == y-i-1) || curr == y+i+1)
+        return false;
+    }
+    return true;
+  }
 }
