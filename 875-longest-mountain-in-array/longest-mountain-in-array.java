@@ -1,32 +1,38 @@
 class Solution {
     public int longestMountain(int[] arr) {
-     if (arr.length<3)
-     return 0;
-     int result=0;
-     int i=0;
-     boolean peak=false;
-     boolean valley= false;
-     while(i<arr.length-1){
-        if (arr[i]<arr[i+1]){
-            int start=i;
-            while(i<arr.length-1 && arr[i]<arr[i+1]){
-                i++;
-                peak=true;
-            }
-            while(i<arr.length-1 && arr[i]>arr[i+1]){
-                i++;
-                valley=true;
-            }
-            if (peak==true && valley==true){
-                result=Math.max(result,i-start+1);
-            }
-            peak=false;
-            valley=false;
+   int largest = 0;
+   int n=arr.length;
+    
+        if (n < 3) {
+            System.out.println(0);
+            return 0;
         }
-        else{
-            i++;
+    
+        for (int i = 1; i < n - 1; i++) {
+            // Check if arr[i] is a peak
+            if (arr[i - 1] < arr[i] && arr[i] > arr[i + 1]) {
+                int count = 1;
+                int j = i;
+    
+                // Move left from the peak
+                while (j > 0 && arr[j] > arr[j - 1]) {
+                    count++;
+                    j--;
+                }
+    
+                // Move right from the peak
+                while (i < n - 1 && arr[i] > arr[i + 1]) {
+                    count++;
+                    i++;
+                }
+    
+                // Update largest mountain size found
+                if (count > largest) {
+                    largest = count;
+                }
+            }
         }
-     } 
-     return result;  
-    }
+    
+        return largest;    
+}
 }
