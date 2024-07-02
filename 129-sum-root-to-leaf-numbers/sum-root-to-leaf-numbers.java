@@ -16,17 +16,17 @@
 class Solution {
     public int sumNumbers(TreeNode root) {
         int [] sum= new int [1];
-        sum(root,sum,"");
+        sum(root,sum,0);
         return sum[0];
     }
-    public static void sum(TreeNode root,int [] sum,String str){
+    public static void sum(TreeNode root,int [] sum,int s){
         if (root==null)
         return ;
-        str=str+root.val;
+        s=s*10+root.val;
         if (root.left==null && root.right==null){
-            sum[0]=sum[0]+Integer.parseInt(str);
+            sum[0]=sum[0]+s;
         }
-        sum(root.left,sum,str);
-        sum(root.right,sum,str);
+        sum(root.left,sum,s);
+        sum(root.right,sum,s);
     }
 }
