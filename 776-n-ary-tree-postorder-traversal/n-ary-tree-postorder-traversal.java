@@ -19,24 +19,23 @@ class Node {
 
 class Solution {
     public List<Integer> postorder(Node root) {
-        // If the root is null, return an empty list
-        if (root == null) return new ArrayList<>();
-
-        List<Integer> res = new ArrayList<>();
-
-        // Start DFS from the root
-        dfs(root, res);
-
-        // Return the result list containing node values in post-order
-        return res;
-    }
-
-    private void dfs(Node root, List<Integer> res) {
-        // Recursively call dfs for each child of the current node
-        for (Node child : root.children) {
-            dfs(child, res);
+        ArrayList<Integer> list = new ArrayList<>();
+        if(root==null){
+            return list; 
         }
-        // Append the value of the current node to the result list
-        res.add(root.val);
+        help(list,root);
+        list.add(root.val);
+        return list;
+    }
+    public void help(ArrayList<Integer> list,Node root){
+        List<Node> li = new ArrayList<>();
+        li = root.children;
+        for(int i=0;i<li.size();i++){
+            if(li.get(i)==null){
+                continue;
+            }
+            help(list,li.get(i));
+            list.add(li.get(i).val);
+        }
     }
 }
