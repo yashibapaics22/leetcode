@@ -15,19 +15,25 @@
  */
 class Solution {
     public TreeNode trimBST(TreeNode root, int low, int high) {
-        if (root==null){
+        if (root == null) {
             return null;
         }
-        root.left=trimBST(root.left,low,high);
-        root.right=trimBST(root.right,low,high);
-        if (root.val>high || root.val<low){
-            if (root.left!=null){
-                return root.left;
-            }
-            else{
-                return root.right;
-            }
+        
+        // Trim the left and right subtrees first
+        root.left = trimBST(root.left, low, high);
+        root.right = trimBST(root.right, low, high);
+        
+        // If the current node's value is less than 'low', discard left subtree
+        if (root.val < low) {
+            return root.right;
         }
+        
+        // If the current node's value is greater than 'high', discard right subtree
+        if (root.val > high) {
+            return root.left;
+        }
+        
+        // If within the range, return the current root
         return root;
     }
 }
