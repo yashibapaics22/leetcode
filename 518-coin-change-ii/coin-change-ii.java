@@ -1,23 +1,19 @@
 class Solution {
     public int change(int amount, int[] coins) {
-        int [][] dp= new int [amount+1][coins.length];
-        for (int []i:dp){
-            Arrays.fill(i,-1);
+        int [][] dp= new int [coins.length+1][amount+1];
+        for (int i=0;i<dp.length;i++){
+            dp[i][0]=1;
         }
-        return coinchange(amount,0,coins,dp);
-    }
-    public int coinchange(int target,int index,int []coins,int [] []dp){
-       if (target==0)
-       return 1;
-       if (index>=coins.length)
-       return 0;
-       if (dp[target][index]!=-1)
-       return dp[target][index];
-       int choose=0;
-       int not_choose=0;
-       if (coins[index]<=target)
-       choose=coinchange(target-coins[index],index,coins,dp);
-       not_choose=coinchange(target,index+1,coins,dp);
-       return dp[target][index]=choose+not_choose;
+        for (int i=1;i<dp.length;i++){
+            for (int am=1;am<dp[0].length;am++){
+                int inc=0,exc=0;
+                if (am>=coins[i-1]){
+                   inc=dp[i][am-coins[i-1]];
+                }
+                exc=dp[i-1][am];
+                dp[i][am]=inc+exc;
+            }
+        }
+        return dp[dp.length-1][dp[0].length-1];
     }
 }
