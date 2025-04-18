@@ -10,19 +10,20 @@
  */
 class Solution {
     public boolean isPalindrome(ListNode head) {
-        if (head==null || head.next==null)
-        return true;
-        Stack <Integer> st= new Stack<>();
-        ListNode start= head;
+        ListNode start=head;
+        Stack<Integer> st= new Stack<>();
+        if(head==null || head.next==null){
+            return true;
+        }
         while(start!=null){
             st.add(start.val);
             start=start.next;
         }
-        ListNode ll= head;
+        ListNode ll=head;
         while(!st.isEmpty()){
-            int k=st.pop();
-            if (ll.val!=k)
-            return false;
+            if(st.pop()!=ll.val){
+                return false;
+            }
             ll=ll.next;
         }
         return true;
